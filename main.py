@@ -29,15 +29,15 @@ field = [[0 for i in range(W)] for j in range(H)]
 
 anim_count, anim_speed, anim_limit = 0, 60, 2000
 
-bg = pygame.image.load('bg.jpg').convert()
-game_bg = pygame.image.load('bg2.webp').convert()
+bg = pygame.image.load('resources/bg.jpg').convert()
+game_bg = pygame.image.load('resources/bg2.webp').convert()
 
-main_font = pygame.font.Font('font.ttf', 65)
-font = pygame.font.Font('font.ttf', 45)
+main_font = pygame.font.Font('resources/font.ttf', 65)
+font = pygame.font.Font('resources/font.ttf', 45)
 
-title_tetris = main_font.render('TETRIS', True, pygame.Color('darkorange'))
-title_score = font.render('Score:', True, pygame.Color('green'))
-title_record = font.render('Record:', True, pygame.Color('purple'))
+title_tetris = main_font.render('TETRIS', True, pygame.Color('yellow'))
+title_score = font.render('Score:', True, pygame.Color('blue'))
+title_record = font.render('Record:', True, pygame.Color('green'))
 
 get_color = lambda : (randrange(30, 256), randrange(30, 256), randrange(30, 256))
 
@@ -81,7 +81,7 @@ while True:
 
     # delay for full lines
     for i in range(lines):
-        pygame.time.wait(200)
+        pygame.time.wait(500)
 
     # control
     for event in pygame.event.get():
@@ -93,7 +93,7 @@ while True:
             elif event.key == pygame.K_RIGHT:
                 dx = 1
             elif event.key == pygame.K_DOWN:
-                anim_limit = 100
+                anim_limit = 150
             elif event.key == pygame.K_UP:
                 rotate = True
 
@@ -117,7 +117,7 @@ while True:
                     field[figure_old[i].y][figure_old[i].x] = color
                 figure, color = next_figure, next_color
                 next_figure, next_color = deepcopy(choice(figures)), get_color()
-                anim_limit = 2000
+                anim_limit = 1000
                 break
 
     # rotate
@@ -173,11 +173,11 @@ while True:
         pygame.draw.rect(sc, next_color, figure_rect)
         
     # draw titles
-    sc.blit(title_tetris, (485, -10))
-    sc.blit(title_score, (535, 780))
-    sc.blit(font.render(str(score), True, pygame.Color('white')), (550, 840))
-    sc.blit(title_record, (525, 650))
-    sc.blit(font.render(record, True, pygame.Color('gold')), (550, 710))
+    sc.blit(title_tetris, (485, 10))
+    sc.blit(title_score, (535, 730))
+    sc.blit(font.render(str(score), True, pygame.Color('white')), (550, 790))
+    sc.blit(title_record, (525, 600))
+    sc.blit(font.render(record, True, pygame.Color('white')), (550, 660))
 
     # game over
     for i in range(W):

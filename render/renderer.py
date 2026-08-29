@@ -8,7 +8,7 @@ class Renderer:
         self.screen = screen
         self.game_surface = game_surface
 
-        self.bg = pygame.image.load(asset_path('bg.jpg')).convert()
+        self.bg = pygame.image.load(asset_path('bg.webp')).convert()
         self.game_bg = pygame.image.load(asset_path('bg2.webp')).convert()
 
         self.main_font = pygame.font.Font(asset_path('font.ttf'), 65)

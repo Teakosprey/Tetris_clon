@@ -25,11 +25,11 @@ class Renderer:
         self.screen.blit(overlay, (0, 0))
 
         title_label = self.main_font.render(title, True, pygame.Color('yellow'))
-        self.screen.blit(title_label, (self.screen.get_width() // 2 - title_label.get_width() // 2, 140))
+        self.screen.blit(title_label, (self.screen.get_width() // 2 - title_label.get_width() // 2, 120))
 
         for i, line in enumerate(lines):
             text = self.small_font.render(line, True, pygame.Color('white'))
-            self.screen.blit(text, (self.screen.get_width() // 2 - text.get_width() // 2, 280 + i * 65))
+            self.screen.blit(text, (self.screen.get_width() // 2 - text.get_width() // 2, 300 + i * 50))
 
     def render_start_screen(self, game):
         self.screen.blit(self.bg, (0, 0))
@@ -39,9 +39,11 @@ class Renderer:
             'TETRIS',
             [
                 'Controls:',
+                '',
                 'Left / Right - move',
                 'Up - rotate',
                 'Down - soft drop',
+                '',
                 'Press Enter or Space to start'
             ]
         )
@@ -54,6 +56,9 @@ class Renderer:
             [
                 f'Score: {game.score}',
                 f'Record: {game.record}',
+                '',
+                '',
+                '',
                 'Press Enter or Space to restart'
             ]
         )

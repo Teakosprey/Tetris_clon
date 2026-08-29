@@ -15,6 +15,9 @@ class TetrisGame:
         self.renderer = Renderer(screen, game_surface)
         self.clock = pygame.time.Clock()
 
+        self.started = False
+        self.game_over = False
+
         self.figure = Piece.random()
         self.next_figure = Piece.random()
         self.color = self.figure.color
@@ -25,6 +28,19 @@ class TetrisGame:
         self.anim_speed = 60
         self.anim_limit = 2000
         self.record = self.get_record()
+
+    def reset_game(self):
+        self.board.reset()
+        self.figure = Piece.random()
+        self.next_figure = Piece.random()
+        self.color = self.figure.color
+        self.next_color = self.next_figure.color
+        self.score = 0
+        self.anim_count = 0
+        self.anim_speed = 60
+        self.anim_limit = 2000
+        self.game_over = False
+        self.started = True
 
     def _new_figure(self):
         return Piece.random()
@@ -60,18 +76,6 @@ class TetrisGame:
         if self.board.collides(self.figure.cells):
             self.figure = old_figure
 
-    def step_down(self):
-        old_figure = self.figure.copy()
-        self.figure.move(0, 1)
-
-        if self.board.collides(self.figure.cells):
-            self.board.merge_figure(old_figure.cells, self.color)
-            self.spawn_next_figure()
-            self.anim_limit = 1000
-            return True
-
-        return False
-
     def spawn_next_figure(self):
         self.figure = self.next_figure.copy()
         self.color = self.next_figure.color
@@ -93,16 +97,34 @@ class TetrisGame:
     def handle_game_over(self):
         if self.board.is_game_over():
             self.set_record()
-            self.board.reset()
-            self.anim_count, self.anim_speed, self.anim_limit = 0, 60, 2000
-            self.score = 0
-            self.figure = self._new_figure()
-            self.next_figure = self._new_figure()
-            self.color = self.figure.color
-            self.next_color = self.next_figure.color
+            self.game_over = True
+            self.started = False
 
     def run(self):
         while True:
+            if not self.started and not self.game_over:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        return
+                    if event.type == pygame.KEYDOWN and (event.key in (pygame.K_RETURN, pygame.K_SPACE)):
+                        self.started = True
+                self.renderer.render_start_screen(self)
+                pygame.display.flip()
+                self.clock.tick(FPS)
+                continue
+
+            if self.game_over:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        return
+                    if event.type == pygame.KEYDOWN and (event.key in (pygame.K_RETURN, pygame.K_SPACE)):
+                        self.reset_game()
+                        continue
+                self.renderer.render_game_over(self)
+                pygame.display.flip()
+                self.clock.tick(FPS)
+                continue
+
             dx, rotate = 0, False
 
             for event in pygame.event.get():

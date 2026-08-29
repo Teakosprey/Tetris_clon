@@ -13,10 +13,50 @@ class Renderer:
 
         self.main_font = pygame.font.Font(asset_path('font.ttf'), 65)
         self.font = pygame.font.Font(asset_path('font.ttf'), 45)
+        self.small_font = pygame.font.Font(asset_path('font.ttf'), 24)
 
         self.title_tetris = self.main_font.render('TETRIS', True, pygame.Color('yellow'))
         self.title_score = self.font.render('Score:', True, pygame.Color('blue'))
         self.title_record = self.font.render('Record:', True, pygame.Color('green'))
+
+    def _draw_overlay(self, title, lines):
+        overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 254))
+        self.screen.blit(overlay, (0, 0))
+
+        title_label = self.main_font.render(title, True, pygame.Color('yellow'))
+        self.screen.blit(title_label, (self.screen.get_width() // 2 - title_label.get_width() // 2, 180))
+
+        for i, line in enumerate(lines):
+            text = self.small_font.render(line, True, pygame.Color('white'))
+            self.screen.blit(text, (self.screen.get_width() // 2 - text.get_width() // 2, 280 + i * 42))
+
+    def render_start_screen(self, game):
+        self.screen.blit(self.bg, (0, 0))
+        self.screen.blit(self.game_surface, (20, 20))
+        self.game_surface.blit(self.game_bg, (0, 0))
+        self._draw_overlay(
+            'TETRIS',
+            [
+                'Controls:',
+                'Left / Right - move',
+                'Up - rotate',
+                'Down - soft drop',
+                'Press Enter or Space to start'
+            ]
+        )
+
+
+    def render_game_over(self, game):
+        self.render(game)
+        self._draw_overlay(
+            'GAME OVER',
+            [
+                f'Score: {game.score}',
+                f'Record: {game.record}',
+                'Press Enter or Space to restart'
+            ]
+        )
 
     def render(self, game):
         self.screen.blit(self.bg, (0, 0))
@@ -44,8 +84,8 @@ class Renderer:
             figure_rect.y = rect.y * TILE + 185
             pygame.draw.rect(self.screen, game.next_color, figure_rect)
 
-        self.screen.blit(self.title_tetris, (485, 10))
-        self.screen.blit(self.title_score, (535, 730))
-        self.screen.blit(self.font.render(str(game.score), True, pygame.Color('white')), (550, 790))
-        self.screen.blit(self.title_record, (525, 600))
-        self.screen.blit(self.font.render(game.record, True, pygame.Color('white')), (550, 660))
+        self.screen.blit(self.title_tetris, (485, 35))
+        self.screen.blit(self.title_score, (535, 600))
+        self.screen.blit(self.font.render(str(game.score), True, pygame.Color('white')), (550, 660))
+        self.screen.blit(self.title_record, (525, 730))
+        self.screen.blit(self.font.render(game.record, True, pygame.Color('white')), (550, 790))

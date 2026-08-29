@@ -82,6 +82,16 @@ class TetrisGame:
         self.next_figure = self._new_figure()
         self.next_color = self.next_figure.color
 
+    def get_ghost_piece(self):
+        ghost_piece = self.figure.copy()
+
+        while True:
+            next_piece = ghost_piece.copy()
+            next_piece.move(0, 1)
+            if self.board.collides(next_piece.cells):
+                return ghost_piece
+            ghost_piece = next_piece
+
     def step_down(self):
         old_figure = self.figure.copy()
         self.figure.move(0, 1)

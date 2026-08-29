@@ -16,8 +16,8 @@ class Renderer:
         self.small_font = pygame.font.Font(asset_path('font.ttf'), 24)
 
         self.title_tetris = self.main_font.render('TETRIS', True, pygame.Color('yellow'))
-        self.title_score = self.font.render('Score:', True, pygame.Color('blue'))
-        self.title_record = self.font.render('Record:', True, pygame.Color('green'))
+        self.title_score = self.font.render('Score:', True, pygame.Color('lightblue'))
+        self.title_record = self.font.render('Record:', True, pygame.Color('lightblue'))
 
     def _draw_overlay(self, title, lines):
         overlay = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
@@ -70,6 +70,11 @@ class Renderer:
 
         for rect in game.board.grid:
             pygame.draw.rect(self.game_surface, (40, 40, 40), rect, 1)
+
+        ghost_piece = game.get_ghost_piece()
+        for rect in ghost_piece:
+            ghost_rect = pygame.Rect(rect.x * TILE + 2, rect.y * TILE + 2, TILE - 4, TILE - 4)
+            pygame.draw.rect(self.game_surface, (255, 255, 255), ghost_rect, 2)
 
         figure_rect = pygame.Rect(0, 0, TILE - 2, TILE - 2)
         for rect in game.figure:

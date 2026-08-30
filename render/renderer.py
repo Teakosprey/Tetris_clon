@@ -8,8 +8,8 @@ class Renderer:
         self.screen = screen
         self.game_surface = game_surface
 
-        self.bg = pygame.image.load(asset_path('bg.webp')).convert()
-        self.game_bg = pygame.image.load(asset_path('bg2.webp')).convert()
+        self.bg = pygame.image.load(asset_path('bg.png')).convert()
+        self.game_bg = pygame.image.load(asset_path('bg2.png')).convert()
 
         self.main_font = pygame.font.Font(asset_path('font.ttf'), 65)
         self.font = pygame.font.Font(asset_path('font.ttf'), 45)
@@ -32,8 +32,8 @@ class Renderer:
             self.screen.blit(text, (self.screen.get_width() // 2 - text.get_width() // 2, 300 + i * 50))
 
     def render_start_screen(self, game):
-        self.screen.blit(self.bg, (0, 0))
         self.screen.blit(self.game_surface, (20, 20))
+        self.screen.blit(self.bg, (0, 0))
         self.game_surface.blit(self.game_bg, (0, 0))
         self._draw_overlay(
             'TETRIS',

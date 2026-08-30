@@ -1,4 +1,4 @@
-import pygame
+import pygame, asyncio
 
 from .board import Board
 from .config import FPS, RECORD_PATH
@@ -110,7 +110,7 @@ class TetrisGame:
             self.game_over = True
             self.started = False
 
-    def run(self):
+    async def run(self):
         while True:
             if not self.started and not self.game_over:
                 for event in pygame.event.get():
@@ -121,6 +121,7 @@ class TetrisGame:
                 self.renderer.render_start_screen(self)
                 pygame.display.flip()
                 self.clock.tick(FPS)
+                await asyncio.sleep(0)
                 continue
 
             if self.game_over:
@@ -129,10 +130,12 @@ class TetrisGame:
                         return
                     if event.type == pygame.KEYDOWN and (event.key in (pygame.K_RETURN, pygame.K_SPACE)):
                         self.reset_game()
+                        await asyncio.sleep(0)
                         continue
                 self.renderer.render_game_over(self)
                 pygame.display.flip()
                 self.clock.tick(FPS)
+                await asyncio.sleep(0)
                 continue
 
             dx, rotate = 0, False
@@ -170,3 +173,4 @@ class TetrisGame:
 
             pygame.display.flip()
             self.clock.tick(FPS)
+            await asyncio.sleep(0)

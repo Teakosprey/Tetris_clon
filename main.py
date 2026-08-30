@@ -1,13 +1,11 @@
-import pygame
+import pygame, asyncio
 
 from game.config import GAME_RES, RES
 from game.game import TetrisGame
 from audio.music import Music
 
 
-
-
-def main() -> None:
+async def main():
     pygame.init()
     pygame.mixer.init()
 
@@ -19,10 +17,9 @@ def main() -> None:
     game_surface = pygame.Surface(GAME_RES)
 
     game = TetrisGame(screen, game_surface)
-    game.run()
+    await game.run()
 
     pygame.quit()
 
-
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

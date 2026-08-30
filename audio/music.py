@@ -5,7 +5,7 @@ from game.config import asset_path
 
 class Music:
     def __init__(self):
-        pygame.mixer.music.load(asset_path('theme.mp3'))
+        pygame.mixer.music.load(asset_path('theme.ogg'))
 
     def play(self):
         pygame.mixer.music.play(-1)

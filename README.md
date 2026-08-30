@@ -2,7 +2,7 @@
 
 Clon del clásico juego de Tetris hecho en Python usando 'Pygame', compilado a 'WebAssembly' con 'pygbag' para poder jugarse directamente en el navegador.
 
-[**JUGAR AHORA**](tetris-cloned.netlify.app)
+[**JUGAR AHORA**](https://tetris-cloned.netlify.app/)
 
 ---
 
